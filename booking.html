@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book a Package – TravelHub</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body class="booking-page">
+
+<nav class="nav scrolled" id="nav">
+  <div class="nav-logo">Travel<span>Hub</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="search.html">Explore</a></li>
+    <li><a href="agency-profile.html">Agencies</a></li>
+    <li><a href="booking.html" class="active">Book</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="btn-outline">Sign In</a>
+    <a href="register.html" class="btn-primary">Join Free</a>
+  </div>
+  <button class="nav-toggle" id="navToggle">&#9776;</button>
+</nav>
+
+<div class="booking-wrapper container">
+
+  <!-- STEPPER -->
+  <div class="stepper" id="stepper">
+    <div class="step-item active" data-step="1">
+      <div class="step-circle">1</div>
+      <span>Package</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item" data-step="2">
+      <div class="step-circle">2</div>
+      <span>Details</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item" data-step="3">
+      <div class="step-circle">3</div>
+      <span>Travellers</span>
+    </div>
+    <div class="step-line"></div>
+    <div class="step-item" data-step="4">
+      <div class="step-circle">4</div>
+      <span>Confirm</span>
+    </div>
+  </div>
+
+  <div class="booking-layout">
+    <!-- FORM AREA -->
+    <div class="booking-form-area">
+
+      <!-- STEP 1: Package Selection -->
+      <div class="booking-step active" id="step1">
+        <h2>Select Your Package</h2>
+        <p class="step-desc">Choose from available packages by Summit Trails India</p>
+        <div class="package-select-list" id="packageSelectList">
+          <!-- Rendered by JS -->
+        </div>
+        <div class="step-actions">
+          <button class="btn-primary btn-lg" id="nextStep1">Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Trip Details -->
+      <div class="booking-step" id="step2">
+        <h2>Trip Details</h2>
+        <p class="step-desc">Tell us about your travel dates and group</p>
+        <form class="booking-form" id="tripDetailsForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Departure Date *</label>
+              <input type="date" id="departureDate" required />
+            </div>
+            <div class="form-group">
+              <label>Return Date</label>
+              <input type="date" id="returnDate" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Number of Adults *</label>
+              <div class="counter-input">
+                <button type="button" class="counter-btn" data-target="adults" data-op="-">−</button>
+                <input type="number" id="adults" value="2" min="1" max="20" />
+                <button type="button" class="counter-btn" data-target="adults" data-op="+">+</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Number of Children</label>
+              <div class="counter-input">
+                <button type="button" class="counter-btn" data-target="children" data-op="-">−</button>
+                <input type="number" id="children" value="0" min="0" max="10" />
+                <button type="button" class="counter-btn" data-target="children" data-op="+">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Room Preference</label>
+            <div class="radio-group">
+              <label class="radio-opt"><input type="radio" name="room" value="shared" checked /> Shared Room</label>
+              <label class="radio-opt"><input type="radio" name="room" value="double" /> Double Room</label>
+              <label class="radio-opt"><input type="radio" name="room" value="deluxe" /> Deluxe Room (+₹2,000)</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Pickup City</label>
+            <select>
+              <option>Delhi</option>
+              <option>Mumbai</option>
+              <option>Chandigarh</option>
+              <option>Self Arrangement</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Special Requests</label>
+            <textarea rows="3" placeholder="Any dietary requirements, medical needs, or special requests…"></textarea>
+          </div>
+        </form>
+        <div class="step-actions">
+          <button class="btn-outline btn-lg" id="prevStep2">← Back</button>
+          <button class="btn-primary btn-lg" id="nextStep2">Continue →</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Traveller Details -->
+      <div class="booking-step" id="step3">
+        <h2>Traveller Details</h2>
+        <p class="step-desc">Enter details for each traveller</p>
+        <div id="travellerForms">
+          <!-- Rendered by JS -->
+        </div>
+        <div class="step-actions">
+          <button class="btn-outline btn-lg" id="prevStep3">← Back</button>
+          <button class="btn-primary btn-lg" id="nextStep3">Review Booking →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Confirmation -->
+      <div class="booking-step" id="step4">
+        <h2>Review & Confirm</h2>
+        <p class="step-desc">Please review all details before confirming your booking</p>
+        <div class="confirmation-box" id="confirmationBox">
+          <!-- Rendered by JS -->
+        </div>
+        <div class="terms-check">
+          <label class="checkbox-opt">
+            <input type="checkbox" id="termsCheck" />
+            I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Cancellation Policy</a>
+          </label>
+        </div>
+        <div class="step-actions">
+          <button class="btn-outline btn-lg" id="prevStep4">← Back</button>
+          <button class="btn-primary btn-lg" id="confirmBooking">✅ Confirm Booking</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ORDER SUMMARY SIDEBAR -->
+    <div class="booking-sidebar">
+      <div class="order-card">
+        <div class="order-pkg-img">
+          <img src="https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=600&q=80" alt="Package" />
+        </div>
+        <div class="order-pkg-info">
+          <h3 id="orderPkgName">Manali Winter Wonderland – 6D/5N</h3>
+          <p>Summit Trails India</p>
+          <div class="order-rating">★★★★★ 4.9</div>
+        </div>
+        <div class="order-breakdown" id="orderBreakdown">
+          <div class="ob-row"><span>Base Package (2 adults)</span><span id="obBase">₹17,000</span></div>
+          <div class="ob-row"><span>Room Upgrade</span><span id="obRoom">₹0</span></div>
+          <div class="ob-row"><span>Taxes & Fees (5%)</span><span id="obTax">₹850</span></div>
+          <div class="ob-row ob-total"><span>Total</span><span id="obTotal">₹17,850</span></div>
+        </div>
+        <div class="order-note">
+          <span>🔒 Secure Booking</span>
+          <span>📋 Free Cancellation (14 days)</span>
+          <span>💬 24/7 Support</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="success-modal">
+    <div class="success-icon">🎉</div>
+    <h2>Booking Confirmed!</h2>
+    <p>Your booking has been confirmed. You will receive a detailed itinerary and invoice on your email shortly.</p>
+    <div class="booking-ref">
+      Booking Reference: <strong id="bookingRef">TH-2025-08347</strong>
+    </div>
+    <div class="success-actions">
+      <a href="index.html" class="btn-outline">Back to Home</a>
+      <button class="btn-primary" onclick="document.getElementById('successModal').style.display='none'">View Details</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-bottom">
+    <p>© 2025 TravelHub. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="booking.js"></script>
+</body>
+</html>

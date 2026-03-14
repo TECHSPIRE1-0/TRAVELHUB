@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Summit Trails India – TravelHub</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body class="profile-page">
+
+<nav class="nav scrolled" id="nav">
+  <div class="nav-logo">Travel<span>Hub</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="search.html">Explore</a></li>
+    <li><a href="agency-profile.html" class="active">Agencies</a></li>
+    <li><a href="booking.html">Book</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="login.html" class="btn-outline">Sign In</a>
+    <a href="register.html" class="btn-primary">Join Free</a>
+  </div>
+  <button class="nav-toggle" id="navToggle">&#9776;</button>
+</nav>
+
+<!-- AGENCY HERO -->
+<div class="profile-hero">
+  <div class="profile-banner">
+    <img src="https://images.unsplash.com/photo-1585409677983-0f6c41ca9c3b?w=1400&q=80" alt="Agency Banner" />
+    <div class="banner-overlay"></div>
+  </div>
+  <div class="profile-header container">
+    <div class="profile-avatar-wrap">
+      <div class="profile-avatar">🏔️</div>
+      <span class="profile-verified">✓ Verified</span>
+    </div>
+    <div class="profile-meta">
+      <h1>Summit Trails India</h1>
+      <div class="profile-meta-row">
+        <span>📍 New Delhi, India</span>
+        <span>📅 Est. 2014</span>
+        <span>📦 42 Packages</span>
+      </div>
+      <div class="profile-rating-row">
+        <div class="stars">★★★★★</div>
+        <strong>4.9</strong>
+        <span>(312 reviews)</span>
+        <span class="response-badge">⚡ Responds in &lt;1 hr</span>
+      </div>
+    </div>
+    <div class="profile-actions">
+      <button class="btn-primary btn-lg" onclick="openChat()">💬 Chat Now</button>
+      <a href="booking.html" class="btn-outline btn-lg">📅 Book Package</a>
+    </div>
+  </div>
+</div>
+
+<!-- TABS -->
+<div class="profile-tabs-wrap" id="profileTabs">
+  <div class="container">
+    <div class="profile-tabs">
+      <button class="tab-btn active" data-tab="overview">Overview</button>
+      <button class="tab-btn" data-tab="packages">Packages</button>
+      <button class="tab-btn" data-tab="gallery">Gallery</button>
+      <button class="tab-btn" data-tab="reviews">Reviews</button>
+      <button class="tab-btn" data-tab="contact">Contact</button>
+    </div>
+  </div>
+</div>
+
+<!-- TAB CONTENT -->
+<div class="profile-body container">
+
+  <!-- OVERVIEW -->
+  <div class="tab-content active" id="tab-overview">
+    <div class="profile-grid">
+      <div class="profile-main">
+        <div class="profile-section">
+          <h2>About Summit Trails India</h2>
+          <p>Summit Trails India is a premier adventure and trekking travel agency based in New Delhi, specialising in Himalayan experiences. With over a decade of expertise, we craft unforgettable journeys to Manali, Spiti Valley, Leh Ladakh, Kasol, and beyond.</p>
+          <p>Our team of experienced mountaineers and local guides ensures safe, enriching, and authentic travel experiences. We take pride in small group sizes, personalised service, and responsible tourism practices that support local communities.</p>
+        </div>
+        <div class="profile-section">
+          <h2>What We Specialise In</h2>
+          <div class="specialty-tags">
+            <span>🏔️ Himalayan Trekking</span>
+            <span>🚵 Mountain Biking</span>
+            <span>⛺ Camping Expeditions</span>
+            <span>🧗 Rock Climbing</span>
+            <span>🎿 Winter Sports</span>
+            <span>📸 Photography Tours</span>
+            <span>🌿 Nature Retreats</span>
+            <span>👨‍👩‍👧 Family Adventure</span>
+          </div>
+        </div>
+        <div class="profile-section">
+          <h2>Highlights</h2>
+          <div class="highlights-grid">
+            <div class="highlight"><span>🛡️</span><div><strong>Safety First</strong><p>All guides are certified in first aid and mountain safety protocols.</p></div></div>
+            <div class="highlight"><span>👥</span><div><strong>Small Groups</strong><p>Maximum 12 travellers per group for a personalised experience.</p></div></div>
+            <div class="highlight"><span>🌱</span><div><strong>Eco-Friendly</strong><p>Zero plastic policy and community-based tourism model.</p></div></div>
+            <div class="highlight"><span>💳</span><div><strong>Flexible Booking</strong><p>Free cancellation up to 14 days before departure.</p></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="profile-sidebar">
+        <div class="sidebar-card">
+          <h3>Quick Facts</h3>
+          <ul class="fact-list">
+            <li><span>📅 Founded</span><strong>2014</strong></li>
+            <li><span>👥 Team Size</span><strong>28 members</strong></li>
+            <li><span>🗺️ Destinations</span><strong>35+</strong></li>
+            <li><span>📦 Packages</span><strong>42 Active</strong></li>
+            <li><span>🌍 Travellers Served</span><strong>8,500+</strong></li>
+            <li><span>🏆 Awards</span><strong>Best Mountain Agency 2023</strong></li>
+          </ul>
+        </div>
+        <div class="sidebar-card">
+          <h3>Destinations Covered</h3>
+          <div class="dest-chips">
+            <span>Manali</span><span>Spiti Valley</span><span>Leh Ladakh</span><span>Kasol</span><span>Rishikesh</span><span>Kedarnath</span><span>Chopta</span><span>Auli</span>
+          </div>
+        </div>
+        <div class="sidebar-card contact-card">
+          <h3>Get In Touch</h3>
+          <p>📞 +91 98765 43210</p>
+          <p>✉️ hello@summittrailsindia.com</p>
+          <p>🌐 www.summittrailsindia.com</p>
+          <button class="btn-primary w-full" onclick="openChat()">💬 Start Chat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PACKAGES -->
+  <div class="tab-content" id="tab-packages">
+    <div class="packages-filters">
+      <button class="pkg-filter active" data-filter="all">All Packages</button>
+      <button class="pkg-filter" data-filter="adventure">Adventure</button>
+      <button class="pkg-filter" data-filter="trekking">Trekking</button>
+      <button class="pkg-filter" data-filter="family">Family</button>
+    </div>
+    <div class="packages-list" id="packagesList">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="tab-content" id="tab-gallery">
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- Rendered by JS -->
+    </div>
+  </div>
+
+  <!-- REVIEWS -->
+  <div class="tab-content" id="tab-reviews">
+    <div class="reviews-header">
+      <div class="rating-summary">
+        <div class="big-rating">4.9</div>
+        <div class="rating-breakdown">
+          <div class="rb-row"><span>5 ★</span><div class="rb-bar"><div style="width:82%"></div></div><span>82%</span></div>
+          <div class="rb-row"><span>4 ★</span><div class="rb-bar"><div style="width:14%"></div></div><span>14%</span></div>
+          <div class="rb-row"><span>3 ★</span><div class="rb-bar"><div style="width:3%"></div></div><span>3%</span></div>
+          <div class="rb-row"><span>2 ★</span><div class="rb-bar"><div style="width:1%"></div></div><span>1%</span></div>
+          <div class="rb-row"><span>1 ★</span><div class="rb-bar"><div style="width:0%"></div></div><span>0%</span></div>
+        </div>
+        <p>Based on 312 reviews</p>
+      </div>
+    </div>
+    <div class="reviews-list" id="reviewsList"></div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="tab-content" id="tab-contact">
+    <div class="contact-grid">
+      <div class="contact-form-wrap">
+        <h2>Send a Message</h2>
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="form-group"><label>Your Name</label><input type="text" placeholder="Enter your full name" required /></div>
+            <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com" required /></div>
+          </div>
+          <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 XXXXX XXXXX" /></div>
+          <div class="form-group"><label>Interested Destination</label>
+            <select><option>Select destination</option><option>Manali</option><option>Spiti Valley</option><option>Leh Ladakh</option><option>Kasol</option></select>
+          </div>
+          <div class="form-group"><label>Travel Date</label><input type="date" /></div>
+          <div class="form-group"><label>Number of Travellers</label><input type="number" min="1" placeholder="e.g. 4" /></div>
+          <div class="form-group"><label>Your Message</label><textarea rows="4" placeholder="Tell the agency about your trip requirements…"></textarea></div>
+          <button type="submit" class="btn-primary btn-lg w-full">📨 Send Enquiry</button>
+        </form>
+      </div>
+      <div class="contact-info-wrap">
+        <h2>Contact Details</h2>
+        <div class="contact-details">
+          <div class="contact-item"><span>📞</span><div><strong>Phone</strong><p>+91 98765 43210</p></div></div>
+          <div class="contact-item"><span>✉️</span><div><strong>Email</strong><p>hello@summittrailsindia.com</p></div></div>
+          <div class="contact-item"><span>📍</span><div><strong>Office Address</strong><p>23, Connaught Place, New Delhi – 110001</p></div></div>
+          <div class="contact-item"><span>🕒</span><div><strong>Office Hours</strong><p>Mon–Sat: 9 AM – 7 PM<br/>Sunday: 10 AM – 4 PM</p></div></div>
+        </div>
+        <div class="map-placeholder">
+          <p>📍 Map Location</p>
+          <small>New Delhi, India</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CHAT WIDGET -->
+<div class="chat-widget" id="chatWidget">
+  <div class="chat-header">
+    <div class="chat-agency-info">
+      <span class="chat-avatar">🏔️</span>
+      <div>
+        <strong>Summit Trails India</strong>
+        <small>🟢 Online now</small>
+      </div>
+    </div>
+    <button class="chat-close" onclick="closeChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg agency-msg">
+      <span class="msg-avatar">🏔️</span>
+      <div class="msg-bubble">
+        <p>Hello! 👋 Welcome to Summit Trails India. How can we help you plan your next adventure?</p>
+        <small>Just now</small>
+      </div>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="chatInput" placeholder="Type a message…" />
+    <button id="chatSend">➤</button>
+  </div>
+</div>
+
+<button class="chat-fab" id="chatFab" onclick="openChat()">💬</button>
+
+<footer class="footer">
+  <div class="footer-bottom">
+    <p>© 2025 TravelHub. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="agency-profile.js"></script>
+</body>
+</html>

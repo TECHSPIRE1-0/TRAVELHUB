@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join TravelHub – Create Account</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body class="auth-page register-page">
+
+
+
+<div class="auth-wrapper">
+  <div class="auth-visual">
+    <img src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&q=80" alt="Travel" />
+    <div class="auth-visual-overlay">
+      <h2>Join 95,000+ travellers discovering the world with TravelHub</h2>
+      <div class="auth-perks">
+        <div>✓ Free to join</div>
+        <div>✓ Compare 2,400+ agencies</div>
+        <div>✓ Book & manage trips</div>
+        <div>✓ 24/7 support</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-form-wrap">
+    <div class="auth-form-inner">
+      <h1>Create your account</h1>
+      <p class="auth-sub">Start your journey today — it's free!</p>
+
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabTraveller">I'm a Traveller</button>
+        <button class="auth-tab" id="tabAgency">I'm an Agency</button>
+      </div>
+
+      <!-- TRAVELLER FORM -->
+      <form class="auth-form" id="travellerForm">
+        <div class="form-row">
+          <div class="form-group"><label>First Name</label><input type="text" placeholder="Arjun" required /></div>
+          <div class="form-group"><label>Last Name</label><input type="text" placeholder="Mehta" required /></div>
+        </div>
+        <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com" required /></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+91 XXXXX XXXXX" /></div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-password">
+            <input type="password" id="passwordInput" placeholder="Create a strong password" required />
+            <button type="button" class="toggle-pw" id="togglePw">👁</button>
+          </div>
+          <div class="password-strength" id="pwStrength"></div>
+        </div>
+        <label class="checkbox-opt">
+          <input type="checkbox" required /> I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+        </label>
+        <label class="checkbox-opt">
+          <input type="checkbox" /> Send me travel deals and newsletter
+        </label>
+        <button type="submit" class="btn-primary btn-lg w-full">Create Account →</button>
+      </form>
+
+      <!-- AGENCY FORM -->
+      <form class="auth-form hidden" id="agencyForm">
+        <div class="form-group"><label>Agency Name *</label><input type="text" placeholder="e.g. Summit Trails India" required /></div>
+        <div class="form-row">
+          <div class="form-group"><label>Contact Person *</label><input type="text" placeholder="Full name" required /></div>
+          <div class="form-group"><label>Designation</label><input type="text" placeholder="e.g. Director" /></div>
+        </div>
+        <div class="form-group"><label>Business Email *</label><input type="email" placeholder="agency@email.com" required /></div>
+        <div class="form-group"><label>Phone Number *</label><input type="tel" placeholder="+91 XXXXX XXXXX" required /></div>
+        <div class="form-group">
+          <label>Business Location</label>
+          <select>
+            <option>Select State</option>
+            <option>Delhi</option><option>Maharashtra</option><option>Himachal Pradesh</option>
+            <option>Uttarakhand</option><option>Rajasthan</option><option>Kerala</option>
+            <option>Goa</option><option>Tamil Nadu</option>
+          </select>
+        </div>
+        <div class="form-group"><label>GST Number (Optional)</label><input type="text" placeholder="GST registration number" /></div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-password">
+            <input type="password" placeholder="Create a strong password" required />
+            <button type="button" class="toggle-pw">👁</button>
+          </div>
+        </div>
+        <label class="checkbox-opt">
+          <input type="checkbox" required /> I agree to the <a href="#">Agency Terms</a> and <a href="#">Privacy Policy</a>
+        </label>
+        <button type="submit" class="btn-primary btn-lg w-full">Register Agency →</button>
+      </form>
+
+      <div class="auth-divider"><span>or continue with</span></div>
+      <div class="social-auth">
+        <button class="social-btn"><span>G</span> Google</button>
+        <button class="social-btn"><span>f</span> Facebook</button>
+      </div>
+      <p class="auth-switch">Already have an account? <a href="login.html">Sign in →</a></p>
+    </div>
+  </div>
+</div>
+
+<script src="auth.js"></script>
+</body>
+</html>
