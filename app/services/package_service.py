@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from fastapi import HTTPException
 
 from app.models.package_type import PackageType
 from app.models.travel_package import TravelPackage
@@ -9,6 +10,19 @@ from app.models.package_pricing import PackagePricing
 
 
 def create_full_package(data, agency_id, db: Session):
+
+    # Duplicate check — same agency cannot create same title + destination twice
+    existing = db.query(TravelPackage).filter(
+        TravelPackage.agency_id   == agency_id,
+        TravelPackage.title       == data.package.title,
+        TravelPackage.destination == data.package.destination
+    ).first()
+
+    if existing:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Package '{data.package.title}' for '{data.package.destination}' already exists. Update the existing package instead."
+        )
 
     # 1️⃣ Package Type
     package_type = db.query(PackageType).filter(
