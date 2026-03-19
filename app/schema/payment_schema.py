@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+# from pydantic import BaseModel
 
-class PaymentVerifySchema(BaseModel):
-    booking_id: int
-    razorpay_order_id: str
-    razorpay_payment_id: str
-    razorpay_signature: str
+# class PaymentVerifySchema(BaseModel):
+#     booking_id: int
+#     razorpay_order_id: str
+#     razorpay_payment_id: str
+#     razorpay_signature: str

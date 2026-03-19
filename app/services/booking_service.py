@@ -31,7 +31,7 @@ def create_booking(data, user_id, db: Session):
         pickup_city=data.pickup_city,
         special_requests=data.special_requests,
         total_price=total_price,
-        status="pending"
+        status="conformed"
     )
 
     db.add(booking)

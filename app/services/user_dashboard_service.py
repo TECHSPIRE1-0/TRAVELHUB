@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from app.models.booking_model import Booking
 from app.models.travel_package import TravelPackage
-from datetime import date
+from datetime import datetime
 
 # def get_user_dashboard(user_id, db: Session):
 
@@ -35,7 +35,7 @@ def get_user_dashboard(user_id, db: Session):
         Booking.user_id == user_id
     ).all()
 
-    today = date.today()
+    today = datetime.today()
 
     upcoming_trips = []
     completed_trips = []

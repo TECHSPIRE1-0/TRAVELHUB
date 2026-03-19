@@ -21,6 +21,8 @@ class Settings(BaseSettings):
     EMAIL_PORT : int
     
     RAZORPAY_WEBHOOK_SECRET : str
+    
+    GEMINI_API_KEY : str
 
     class Config:
         env_file = "./.env"
