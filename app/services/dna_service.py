@@ -1,5 +1,5 @@
 import json
-import google.generativeai as genai
+from google import genai
 from google.api_core.exceptions import ResourceExhausted, GoogleAPIError
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
@@ -17,8 +17,7 @@ from app.schema.dna_schema import (
 #  Gemini client                                                               #
 # --------------------------------------------------------------------------- #
 
-genai.configure(api_key=settings.GEMINI_API_KEY)
-gemini = genai.GenerativeModel("gemini-2.0-flash-lite")
+client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
 
 # --------------------------------------------------------------------------- #
@@ -262,7 +261,7 @@ def _generate_persona_with_ai(top_type: str, data: DNAQuizRequest, scores: dict)
     )
 
     try:
-        response = gemini.generate_content(prompt)
+        response = client.models.generate_content(model="gemini-2.0-flash-lite", contents=prompt)
         raw = response.text.strip()
 
         if raw.startswith("```"):
