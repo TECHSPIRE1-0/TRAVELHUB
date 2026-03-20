@@ -1,6 +1,6 @@
 import re
 import json
-import google.generativeai as genai
+from google import genai
 from google.api_core.exceptions import ResourceExhausted, GoogleAPIError
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
@@ -15,8 +15,7 @@ from app.schema.ai_search_schema import ParsedFilters, PackageResult, AISearchRe
 #  Gemini client                                                               #
 # --------------------------------------------------------------------------- #
 
-genai.configure(api_key=settings.GEMINI_API_KEY)
-model = genai.GenerativeModel("gemini-2.0-flash-lite")
+client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
 
 # --------------------------------------------------------------------------- #
@@ -190,7 +189,7 @@ Rules:
 - "family trip" means package_type: Family
 - "solo trip" means package_type: Solo, people_count: 1"""
 
-        response = model.generate_content(prompt)
+        response = client.models.generate_content(model="gemini-2.0-flash-lite", contents=prompt)
         raw = response.text.strip()
 
         if raw.startswith("```"):
