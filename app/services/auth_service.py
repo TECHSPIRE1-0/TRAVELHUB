@@ -44,5 +44,3 @@ def login_user(data, db : Session, response):
     return {
         "message" : "Login successfuly"
     }
-    
-    
