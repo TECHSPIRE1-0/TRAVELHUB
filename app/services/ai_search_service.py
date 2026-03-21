@@ -11,16 +11,10 @@ from app.models.package_type import PackageType
 from app.schema.ai_search_schema import ParsedFilters, PackageResult, AISearchResponse
 
 
-# --------------------------------------------------------------------------- #
-#  Gemini client                                                               #
-# --------------------------------------------------------------------------- #
 
 client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
 
-# --------------------------------------------------------------------------- #
-#  Fallback — regex-based parser (no API needed)                              #
-# --------------------------------------------------------------------------- #
 
 def parse_query_with_regex(query: str) -> ParsedFilters:
     """
@@ -31,7 +25,6 @@ def parse_query_with_regex(query: str) -> ParsedFilters:
 
     q = query.lower()
 
-    # --- Destination ---
     destination = None
     dest_match = re.search(
         r'\b(?:to|in|for|visit|visiting|at|near|around)\s+([A-Za-z][A-Za-z\s]{2,20}?)(?:\s+(?:under|below|within|for|in|trip|tour|package|from|budget|around|about|with|and|,|$))',
@@ -40,7 +33,6 @@ def parse_query_with_regex(query: str) -> ParsedFilters:
     if dest_match:
         destination = dest_match.group(1).strip().title()
 
-    # Fallback: known popular Indian destinations
     known_destinations = [
         "Goa", "Manali", "Shimla", "Kerala", "Rajasthan", "Mumbai", "Delhi",
         "Jaipur", "Agra", "Ooty", "Coorg", "Munnar", "Darjeeling", "Sikkim",
@@ -55,7 +47,6 @@ def parse_query_with_regex(query: str) -> ParsedFilters:
                 destination = place
                 break
 
-    # --- Budget / Price ---
     min_price = None
     max_price = None
 
@@ -80,7 +71,6 @@ def parse_query_with_regex(query: str) -> ParsedFilters:
         min_price = float(range_match.group(1).replace(',', ''))
         max_price = float(range_match.group(2).replace(',', ''))
 
-    # --- Duration ---
     min_days = None
     max_days = None
 
@@ -102,7 +92,6 @@ def parse_query_with_regex(query: str) -> ParsedFilters:
     elif 'fortnight' in q:
         min_days, max_days = 14, 14
 
-    # --- People count ---
     people_count = None
     people_match = re.search(r'(\d+)\s*(?:people|persons|pax|adults|travell?ers|members|of us)', q)
     if people_match:
@@ -114,7 +103,6 @@ def parse_query_with_regex(query: str) -> ParsedFilters:
     elif 'family' in q:
         people_count = 4
 
-    # --- Package type ---
     package_type = None
     type_keywords = {
         "Honeymoon":  ["honeymoon", "couple", "romantic", "anniversary"],
@@ -152,9 +140,6 @@ def parse_query_with_regex(query: str) -> ParsedFilters:
     )
 
 
-# --------------------------------------------------------------------------- #
-#  Step 1 — Gemini first, regex fallback                                       #
-# --------------------------------------------------------------------------- #
 
 def parse_query_with_ai(query: str) -> tuple:
     """
@@ -207,9 +192,6 @@ Rules:
     return parse_query_with_regex(query), "regex"
 
 
-# --------------------------------------------------------------------------- #
-#  Step 2 — DB query with fallback logic                                       #
-# --------------------------------------------------------------------------- #
 
 def fetch_matching_packages(filters: ParsedFilters, db: Session) -> list:
 
@@ -256,9 +238,6 @@ def fetch_matching_packages(filters: ParsedFilters, db: Session) -> list:
     return results
 
 
-# --------------------------------------------------------------------------- #
-#  Step 3 — score and rank                                                     #
-# --------------------------------------------------------------------------- #
 
 def compute_match_score(package: TravelPackage, pkg_type: PackageType, filters: ParsedFilters):
 
@@ -304,9 +283,6 @@ def compute_match_score(package: TravelPackage, pkg_type: PackageType, filters: 
     return score, reasons
 
 
-# --------------------------------------------------------------------------- #
-#  Step 4 — human-readable summary                                             #
-# --------------------------------------------------------------------------- #
 
 def build_summary(filters: ParsedFilters, count: int, parser_used: str) -> str:
     parts = []
@@ -343,9 +319,6 @@ def build_summary(filters: ParsedFilters, count: int, parser_used: str) -> str:
         return f"Showing {count} available package(s). Try adding destination, budget, or duration for better results."
 
 
-# --------------------------------------------------------------------------- #
-#  Main entry point                                                            #
-# --------------------------------------------------------------------------- #
 
 def ai_search(query: str, db: Session) -> AISearchResponse:
 

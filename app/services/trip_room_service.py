@@ -12,9 +12,6 @@ from app.schema.trip_room_schema import (
 )
 
 
-# --------------------------------------------------------------------------- #
-#  Helpers                                                                      #
-# --------------------------------------------------------------------------- #
 
 def _generate_room_code(db: Session) -> str:
     """Generate unique 6-char alphanumeric room code."""
@@ -82,10 +79,6 @@ def _build_vote_summaries(room_id: int, db: Session) -> List[PackageVoteSummary]
 from typing import List
 
 
-# --------------------------------------------------------------------------- #
-#  Create room                                                                  #
-# --------------------------------------------------------------------------- #
-
 def create_room(name: str, user_id: int, db: Session) -> CreateRoomResponse:
     code = _generate_room_code(db)
 
@@ -109,9 +102,6 @@ def create_room(name: str, user_id: int, db: Session) -> CreateRoomResponse:
     )
 
 
-# --------------------------------------------------------------------------- #
-#  Join room                                                                    #
-# --------------------------------------------------------------------------- #
 
 def join_room(room_code: str, user_id: int, db: Session):
     room = _get_room_or_404(room_code, db)
@@ -134,9 +124,6 @@ def join_room(room_code: str, user_id: int, db: Session):
     return {"message": f"Welcome to '{room.name}'! You can now vote on packages."}
 
 
-# --------------------------------------------------------------------------- #
-#  Add package to room                                                          #
-# --------------------------------------------------------------------------- #
 
 def add_package_to_room(room_code: str, package_id: int, user_id: int, db: Session):
     room = _get_room_or_404(room_code, db)
@@ -166,9 +153,6 @@ def add_package_to_room(room_code: str, package_id: int, user_id: int, db: Sessi
     return {"message": f"'{pkg.title}' added to the room. Members can now vote on it!"}
 
 
-# --------------------------------------------------------------------------- #
-#  Cast vote                                                                    #
-# --------------------------------------------------------------------------- #
 
 def cast_vote(room_code: str, package_id: int, user_id: int, db: Session):
     room = _get_room_or_404(room_code, db)
@@ -215,9 +199,6 @@ def cast_vote(room_code: str, package_id: int, user_id: int, db: Session):
     )
 
 
-# --------------------------------------------------------------------------- #
-#  Get room details                                                             #
-# --------------------------------------------------------------------------- #
 
 def get_room(room_code: str, db: Session) -> RoomDetailResponse:
     room = _get_room_or_404(room_code, db)
@@ -255,9 +236,6 @@ def get_room(room_code: str, db: Session) -> RoomDetailResponse:
     )
 
 
-# --------------------------------------------------------------------------- #
-#  Close room                                                                   #
-# --------------------------------------------------------------------------- #
 
 def close_room(room_code: str, user_id: int, db: Session):
     room = _get_room_or_404(room_code, db)

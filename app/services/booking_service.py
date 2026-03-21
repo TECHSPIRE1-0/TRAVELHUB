@@ -14,6 +14,12 @@ def create_booking(data, user_id, db: Session):
     ).first()
 
     if not pricing:
+        # Fallback to the first available pricing for this package if transport_id is invalid
+        pricing = db.query(PackagePricing).filter(
+            PackagePricing.package_id == data.package_id
+        ).first()
+        
+    if not pricing:
         raise HTTPException(status_code=404, detail="Pricing not found")
 
     total_people = data.adults + data.children
@@ -22,7 +28,7 @@ def create_booking(data, user_id, db: Session):
     booking = Booking(
         user_id=user_id,
         package_id=data.package_id,
-        transport_id=data.transport_id,
+        transport_id=pricing.transport_id,
         departure_date=data.departure_date,
         return_date=data.return_date,
         adults=data.adults,

@@ -21,6 +21,7 @@ def user_dashboard(
     data = get_user_dashboard(user.id, db)
 
     return {
+        "user_name": user.username,
         "bookings": data
     }
 

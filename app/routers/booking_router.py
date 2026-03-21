@@ -10,20 +10,6 @@ from app.utils.dependencies import get_current_user
 router = APIRouter(prefix="/booking", tags=["Booking"])
 
 
-# @router.post("/create")
-# def book_package(
-#     data: BookingCreate,
-#     db: Session = Depends(get_db),
-#     user=Depends(get_current_user)
-# ):
-
-#     booking_id = create_booking(data, user.id, db)
-
-#     return {
-#         "message": "Booking successful",
-#         "booking_id": booking_id
-#     }
-    
   
 
 @router.post("/")

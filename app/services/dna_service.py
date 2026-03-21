@@ -13,16 +13,10 @@ from app.schema.dna_schema import (
     BudgetStyle, ActivityLevel, TravelGroup, TravelVibe, TripDuration
 )
 
-# --------------------------------------------------------------------------- #
-#  Gemini client                                                               #
-# --------------------------------------------------------------------------- #
 
 client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
 
-# --------------------------------------------------------------------------- #
-#  Persona definitions — name, emoji, tagline, traits, best destinations       #
-# --------------------------------------------------------------------------- #
 
 PERSONAS = {
     "Adventure": {
@@ -92,9 +86,6 @@ PERSONAS = {
 }
 
 
-# --------------------------------------------------------------------------- #
-#  Budget range labels                                                          #
-# --------------------------------------------------------------------------- #
 
 BUDGET_LABELS = {
     "backpacker": "Under ₹10,000 per person",
@@ -116,9 +107,6 @@ DURATION_DAYS = {
 }
 
 
-# --------------------------------------------------------------------------- #
-#  Step 1 — score each package type based on quiz answers                      #
-# --------------------------------------------------------------------------- #
 
 def compute_type_scores(data: DNAQuizRequest) -> dict:
     """
@@ -137,7 +125,6 @@ def compute_type_scores(data: DNAQuizRequest) -> dict:
         "Wildlife":  0,
     }
 
-    # --- Budget style ---
     if data.budget_style == BudgetStyle.backpacker:
         scores["Adventure"] += 10
         scores["Solo"]      += 8
@@ -154,7 +141,6 @@ def compute_type_scores(data: DNAQuizRequest) -> dict:
         scores["Beach"]     += 8
         scores["Family"]    += 6
 
-    # --- Activity level ---
     if data.activity_level == ActivityLevel.relaxed:
         scores["Beach"]     += 12
         scores["Cultural"]  += 8
@@ -170,7 +156,6 @@ def compute_type_scores(data: DNAQuizRequest) -> dict:
         scores["Wildlife"]  += 10
         scores["Group"]     += 6
 
-    # --- Travel group ---
     if data.travel_group == TravelGroup.solo:
         scores["Solo"]      += 20
         scores["Adventure"] += 8
@@ -215,14 +200,6 @@ def compute_type_scores(data: DNAQuizRequest) -> dict:
     return scores
 
 
-# --------------------------------------------------------------------------- #
-#  Step 2 — pick the winning persona                                            #
-# --------------------------------------------------------------------------- #
-
-
-# --------------------------------------------------------------------------- #
-#  Step 2a - AI persona generator                                              #
-# --------------------------------------------------------------------------- #
 
 def _generate_persona_with_ai(top_type: str, data: DNAQuizRequest, scores: dict):
     budget_labels  = {"backpacker": "backpacker (under 10,000)", "midrange": "mid-range (10,000-30,000)", "luxury": "luxury (30,000+)"}
@@ -342,9 +319,6 @@ def resolve_persona(scores: dict, data: DNAQuizRequest) -> PersonaDetail:
     )
 
 
-# --------------------------------------------------------------------------- #
-#  Step 3 — fetch and rank packages by persona match                           #
-# --------------------------------------------------------------------------- #
 
 def fetch_matched_packages(
     persona: PersonaDetail,
@@ -454,9 +428,6 @@ def _score_package(package, pkg_type, persona, scores, data):
     return score, why
 
 
-# --------------------------------------------------------------------------- #
-#  Main entry point                                                             #
-# --------------------------------------------------------------------------- #
 
 def run_dna_quiz(data: DNAQuizRequest, db: Session) -> DNAQuizResponse:
 

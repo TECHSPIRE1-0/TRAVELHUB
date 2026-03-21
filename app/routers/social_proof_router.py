@@ -31,31 +31,5 @@ def social_proof(
     departure_date: str = None,   # optional "YYYY-MM-DD" — scopes seats to that trip date
     db: Session = Depends(get_db)
 ):
-    """
-    Returns live urgency signals for a package — use to display on
-    the package detail page to drive booking conversions.
-
-    Response includes:
-    - viewers_now     : people viewing in last 10 min
-    - views_today     : total views in last 24 hours
-    - bookings_week   : bookings made in last 7 days
-    - seats_left      : available capacity
-    - last_booked_ago : when was the last booking
-    - urgency_level   : "high" | "medium" | "low" | "none"
-    - urgency_tags    : ready-to-display strings e.g. ["Only 3 seats left!"]
-    - urgency_color   : "red" | "orange" | "green" | "gray"
-
-    Example response:
-    {
-        "urgency_level": "high",
-        "urgency_color": "red",
-        "urgency_tags": [
-            "Only 2 seats left!",
-            "Last booked recently",
-            "8 bookings this week — very popular!"
-        ],
-        "viewers_now": 14,
-        "seats_left": 2
-    }
-    """
+   
     return get_social_proof(package_id, db, departure_date)
