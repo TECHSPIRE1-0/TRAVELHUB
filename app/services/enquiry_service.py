@@ -36,7 +36,6 @@ def create_enquiry(data, user_id: int, db: Session):
     return enquiry
 
 
-# GET ENQUIRIES FOR AGENCY
 def get_agency_enquiries(agency_id: int, db: Session):
 
     enquiries = db.query(Enquiry).filter(

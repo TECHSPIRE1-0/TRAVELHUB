@@ -24,7 +24,6 @@ def create_full_package(data, agency_id, db: Session):
             detail=f"Package '{data.package.title}' for '{data.package.destination}' already exists. Update the existing package instead."
         )
 
-    # 1️⃣ Package Type
     package_type = db.query(PackageType).filter(
         PackageType.type_name == data.package_type.type_name
     ).first()
@@ -37,7 +36,6 @@ def create_full_package(data, agency_id, db: Session):
         db.add(package_type)
         db.flush()
 
-    # 2️⃣ Travel Package
     travel_package = TravelPackage(
         agency_id=agency_id,
         package_type_id=package_type.id,
@@ -47,7 +45,6 @@ def create_full_package(data, agency_id, db: Session):
     db.add(travel_package)
     db.flush()
 
-    # 3️⃣ Transport Options
     transport_objects = []
 
     for transport in data.transport_options:
@@ -62,7 +59,6 @@ def create_full_package(data, agency_id, db: Session):
 
         transport_objects.append(obj)
 
-    # 4️⃣ Itinerary
     for day in data.itinerary:
 
         db.add(
@@ -72,7 +68,6 @@ def create_full_package(data, agency_id, db: Session):
             )
         )
 
-    # 5️⃣ Images
     for img in data.images:
 
         db.add(
@@ -82,7 +77,6 @@ def create_full_package(data, agency_id, db: Session):
             )
         )
 
-    # 6️⃣ Pricing
     for price in data.pricing:
 
         transport = transport_objects[price.transport_index]

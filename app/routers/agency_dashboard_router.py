@@ -76,4 +76,6 @@ def agency_stats(
     agency=Depends(get_current_agency)
 ):
 
-    return get_agency_stats(agency.id, db)
+    stats = get_agency_stats(agency.id, db)
+    stats["agency_name"] = agency.agency_name
+    return stats

@@ -77,6 +77,7 @@ def search_by_filter(
             "title": p.title,
             "destination": p.destination,
             "price": p.base_price,
+            "base_price": p.base_price,
             "duration": f"{p.duration_days}D/{p.duration_nights}N"
         }
         for p in packages

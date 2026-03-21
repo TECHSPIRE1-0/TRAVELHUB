@@ -1,5 +1,5 @@
 // Booking Page
-import { booking as bookingApi } from '../api.js';
+import { booking as bookingApi, crowd as crowdApi } from '../api.js';
 import { showToast } from '../components/toast.js';
 import { navigate } from '../router.js';
 
@@ -28,9 +28,10 @@ export default async function BookingPage(container) {
                 <label>Transport ID</label>
                 <input type="number" id="b-transport" class="form-input" placeholder="1" required />
               </div>
-              <div class="form-group">
+              <div class="form-group" style="position: relative;">
                 <label>Departure Date</label>
                 <input type="date" id="b-depart" class="form-input" required />
+                <div id="crowd-indicator" style="margin-top: 8px;"></div>
               </div>
               <div class="form-group">
                 <label>Return Date</label>
@@ -94,6 +95,72 @@ export default async function BookingPage(container) {
       </div>
     </section>
   `;
+
+  // Listen to departure date change for crowd stats
+  const departInput = container.querySelector('#b-depart');
+  const crowdContainer = container.querySelector('#crowd-indicator');
+
+  departInput.addEventListener('change', async (e) => {
+    const val = e.target.value;
+    const currentPackageId = container.querySelector('#b-package').value;
+    
+    if (!currentPackageId) {
+      showToast('Please enter a Package ID first to see crowd levels!', 'warning');
+      e.target.value = ''; // clear date to force re-selection later
+      return;
+    }
+    
+    if (!val) return;
+
+    crowdContainer.innerHTML = '<div class="spinner" style="width: 14px; height: 14px; display: inline-block;"></div><span class="text-secondary" style="font-size: 0.8rem; margin-left:8px;">Checking availability...</span>';
+
+    try {
+      const crowdData = await crowdApi.checkPackage(currentPackageId, val);
+      
+      let badgeStyle = "background: rgba(45, 106, 79, 0.15); color: var(--success);";
+      if (crowdData.crowd_level === "Moderate") badgeStyle = "background: rgba(233, 163, 25, 0.15); color: var(--warning);";
+      if (crowdData.crowd_level === "High") badgeStyle = "background: rgba(200, 164, 94, 0.15); color: var(--accent);";
+      if (crowdData.crowd_level === "Very Crowded") badgeStyle = "background: rgba(192, 57, 43, 0.15); color: var(--danger);";
+
+      let altDatesHtml = '';
+      if (crowdData.alternative_dates && crowdData.alternative_dates.length > 0) {
+        altDatesHtml = `
+          <div style="margin-top: 8px; font-size: 0.8rem;">
+            <p class="text-secondary" style="margin-bottom:4px;">Quieter options (click to select):</p>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              ${crowdData.alternative_dates.map(d => `<button type="button" class="btn btn-sm btn-secondary alt-date-btn" data-date="${d}" style="padding: 4px 8px; font-size: 0.75rem; border-radius: 4px;">${d}</button>`).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      crowdContainer.innerHTML = `
+        <div style="padding: 10px; border-radius: 8px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.05); animation: fadeSlideUp 0.3s ease;">
+          <div style="display: flex; align-items: flex-start; gap: 8px;">
+            <div style="font-size: 1.2rem;">${crowdData.crowd_emoji}</div>
+            <div>
+              <div style="font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+                 ${crowdData.crowd_level} <span class="badge" style="${badgeStyle} padding: 2px 6px; font-size: 0.65rem;">${crowdData.occupancy_percentage}% Booked</span>
+              </div>
+              <div class="text-secondary" style="font-size: 0.75rem; margin-top:2px;">${crowdData.recommendation}</div>
+            </div>
+          </div>
+          ${altDatesHtml}
+        </div>
+      `;
+
+      // Add click listeners to alternative dates if they exist
+      crowdContainer.querySelectorAll('.alt-date-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          departInput.value = btn.dataset.date;
+          departInput.dispatchEvent(new Event('change')); // Trigger re-check
+        });
+      });
+
+    } catch (err) {
+      crowdContainer.innerHTML = '<span class="text-danger" style="font-size:0.8rem;">Could not check available spots currently.</span>';
+    }
+  });
 
   // Add traveller
   container.querySelector('#add-traveller').addEventListener('click', () => {

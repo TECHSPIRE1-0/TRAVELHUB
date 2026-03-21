@@ -158,3 +158,26 @@ export const vision = {
     return request('POST', '/vision/analyze', form, true);
   },
 };
+
+// ─────────────────────────── CROWD LEVEL ──────────────────────
+export const crowd = {
+  checkPackage: (packageId, departureDate) => 
+    request('GET', `/crowd/package/${packageId}?departure_date=${departureDate}`),
+  checkDestination: (destination) => 
+    request('GET', `/crowd/destination?destination=${encodeURIComponent(destination)}`)
+};
+
+// ─────────────────────────── REAL-TIME CHAT ────────────────────
+export const chat = {
+  getAgencyHistory: (userId) => request('GET', `/chat/agency/history/${userId}`),
+  getUserHistory: (agencyId) => request('GET', `/chat/history/${agencyId}`),
+  getAgencyConversations: () => request('GET', `/chat/agency/conversations`),
+  connectUserWS: (agencyId) => {
+    const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+    return new WebSocket(`${proto}://${location.host}/chat/ws/user/${agencyId}`);
+  },
+  connectAgencyWS: (userId) => {
+    const proto = location.protocol === 'https:' ? 'wss' : 'ws';
+    return new WebSocket(`${proto}://${location.host}/chat/ws/agency/${userId}`);
+  }
+};

@@ -12,9 +12,6 @@ from app.models.social_proof_package_model import PackageView
 from app.schema.social_proof_schema import SocialProofResponse
 
 
-# --------------------------------------------------------------------------- #
-#  Helpers                                                                      #
-# --------------------------------------------------------------------------- #
 
 def _hash_ip(ip: str) -> str:
     """Anonymise IP — store MD5 hash only, never raw IP."""
@@ -42,9 +39,6 @@ def _time_ago(dt: datetime) -> str:
         return f"{days} day{'s' if days > 1 else ''} ago"
 
 
-# --------------------------------------------------------------------------- #
-#  Record a view                                                                #
-# --------------------------------------------------------------------------- #
 
 def record_view(package_id: int, client_ip: str, db: Session):
     """
@@ -62,10 +56,6 @@ def record_view(package_id: int, client_ip: str, db: Session):
     db.commit()
     return {"recorded": True}
 
-
-# --------------------------------------------------------------------------- #
-#  Compute social proof signals                                                 #
-# --------------------------------------------------------------------------- #
 
 def get_social_proof(
     package_id:     int,
@@ -89,31 +79,26 @@ def get_social_proof(
 
     now = datetime.now(timezone.utc)
 
-    # --- Signal 1: viewers right now (last 10 minutes) ---
     ten_min_ago = now - timedelta(minutes=10)
     viewers_now = db.query(func.count(PackageView.id)).filter(
         PackageView.package_id == package_id,
         PackageView.viewed_at  >= ten_min_ago
     ).scalar() or 0
 
-    # --- Signal 2: views today (last 24 hours) ---
     yesterday = now - timedelta(hours=24)
     views_today = db.query(func.count(PackageView.id)).filter(
         PackageView.package_id == package_id,
         PackageView.viewed_at  >= yesterday
     ).scalar() or 0
 
-    # --- Signal 3: total upcoming bookings (demand signal, across all dates) ---
     bookings_week = db.query(func.count(Booking.id)).filter(
         Booking.package_id == package_id,
         Booking.status.in_(["pending", "confirmed"]),
         Booking.departure_date >= now
     ).scalar() or 0
 
-    # --- Signal 4: seats left — scoped to one departure date ---
     # Determine which departure date to use for seat calculation
     if departure_date:
-        # User is viewing a specific trip date — show that trip's seats
         from datetime import date
         try:
             dep = datetime.strptime(departure_date, "%Y-%m-%d")
@@ -153,7 +138,6 @@ def get_social_proof(
         # No bookings exist yet — all seats available
         seats_left = pkg.max_people
 
-    # --- Signal 5: last booked time (using departure_date as proxy) ---
     last_booking = db.query(Booking).filter(
         Booking.package_id == package_id,
         Booking.status.in_(["pending", "confirmed"])
@@ -166,9 +150,6 @@ def get_social_proof(
         else:
             last_booked_ago = "recently"
 
-    # --------------------------------------------------------------------------
-    #  Build urgency tags + level
-    # --------------------------------------------------------------------------
 
     tags = []
 
@@ -204,10 +185,7 @@ def get_social_proof(
     elif views_today >= 20:
         tags.append(f"{views_today} people viewed today")
 
-    # --------------------------------------------------------------------------
-    #  Determine urgency level
-    # --------------------------------------------------------------------------
-
+ 
     if seats_left == 0 or (seats_left <= 3 and bookings_week >= 3):
         urgency_level = "high"
         urgency_color = "red"

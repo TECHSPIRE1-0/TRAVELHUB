@@ -37,8 +37,8 @@ def analyze_image_and_match(image_bytes: bytes, db: Session) -> dict:
         response = client.models.generate_content(
             model="gemini-2.0-flash",
             contents=[
-                types.Part.from_text(text=prompt),
-                types.Part.from_image(image=image),
+                prompt,
+                image
             ]
         )
 

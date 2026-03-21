@@ -119,9 +119,9 @@ export default async function TripRoomPage(container) {
 
     ws.onmessage = (e) => {
       const data = JSON.parse(e.data);
-      if (data.room) showRoom(data.room);
-      else if (data.event === 'vote_update') {
-        showToast(data.message || 'Vote updated!', 'info');
+      if (data.event === 'connected' && data.room) showRoom(data.room);
+      else if (data.event === 'package_added' || data.event === 'vote_update') {
+        if (data.message) showToast(data.message, 'info');
         tripRoom.getDetails(code).then(showRoom).catch(() => {});
       } else if (data.event === 'voting_closed') {
         showToast('Voting closed! Winner announced!', 'success');
@@ -163,7 +163,9 @@ export default async function TripRoomPage(container) {
     if (!pkgId || !code) return;
     try {
       await tripRoom.addPackage(code, parseInt(pkgId));
+      container.querySelector('#add-pkg-id').value = '';
       showToast('Package added!', 'success');
+      tripRoom.getDetails(code).then(showRoom).catch(() => {});
     } catch (err) { showToast(err.message, 'error'); }
   });
 

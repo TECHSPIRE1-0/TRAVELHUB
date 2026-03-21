@@ -16,9 +16,6 @@ from app.utils.dependencies import get_current_user
 router = APIRouter(prefix="/trip", tags=["Group Trip Planner"])
 
 
-# --------------------------------------------------------------------------- #
-#  WebSocket connection manager — tracks live connections per room             #
-# --------------------------------------------------------------------------- #
 
 class ConnectionManager:
     def __init__(self):
@@ -54,9 +51,6 @@ class ConnectionManager:
 manager = ConnectionManager()
 
 
-# --------------------------------------------------------------------------- #
-#  REST endpoints                                                               #
-# --------------------------------------------------------------------------- #
 
 @router.post("/create")
 def create_trip_room(

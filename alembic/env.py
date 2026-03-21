@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 from app.database import Base
-from app.models import user_model, agency_model, package_pricing, package_image, package_itinerary, package_type, travel_package, transport_option, enquiry, booking_model, traveler_model, trip_room_model, social_proof_package_model
+from app.models import user_model, agency_model, package_pricing, package_image, package_itinerary, package_type, travel_package, transport_option, enquiry, booking_model, traveler_model, trip_room_model, social_proof_package_model, chat_model
 from app.config import settings
 
 

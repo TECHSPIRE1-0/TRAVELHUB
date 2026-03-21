@@ -46,6 +46,8 @@ export default defineConfig({
       '/negotiate/': { target: 'http://localhost:8000', changeOrigin: true },
       '/marketing/': { target: 'http://localhost:8000', changeOrigin: true },
       '/vision/': { target: 'http://localhost:8000', changeOrigin: true },
+      '/crowd/': { target: 'http://localhost:8000', changeOrigin: true },
+      '/chat/': { target: 'http://localhost:8000', changeOrigin: true, ws: true },
     },
   },
 });

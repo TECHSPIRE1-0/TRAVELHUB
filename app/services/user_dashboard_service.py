@@ -35,36 +35,28 @@ def get_user_dashboard(user_id, db: Session):
         Booking.user_id == user_id
     ).all()
 
-    today = datetime.today()
-
-    upcoming_trips = []
-    completed_trips = []
+    result = []
 
     for b in bookings:
-
         package = db.query(TravelPackage).filter(
             TravelPackage.id == b.package_id
         ).first()
 
         trip_data = {
-            "booking_id": b.id,
-            "package_title": package.title,
-            "destination": package.destination,
+            "id": b.id,
+            "package_id": b.package_id,
+            "agency_id": package.agency_id if package else None,
+            "package_title": package.title if package else f"Package #{b.package_id}",
+            "destination": package.destination if package else "Unknown",
             "departure_date": b.departure_date,
+            "return_date": b.return_date,
+            "adults": b.adults,
             "total_price": b.total_price,
             "status": b.status
         }
+        result.append(trip_data)
 
-        if b.departure_date >= today:
-            upcoming_trips.append(trip_data)
-        else:
-            completed_trips.append(trip_data)
-
-    return {
-        "total_bookings": len(bookings),
-        "upcoming_trips": upcoming_trips,
-        "completed_trips": completed_trips
-    }
+    return result
     
     
 

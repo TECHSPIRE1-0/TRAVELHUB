@@ -8,8 +8,7 @@ from app.services.negotiator_service import NegotiatorSession
 
 router = APIRouter(prefix="/negotiate", tags=["AI Package Negotiator Bot"])
 
-# Store active negotiation sessions in memory
-# connection_id -> NegotiatorSession
+
 active_sessions: Dict[str, NegotiatorSession] = {}
 
 class ConnectionManager:
@@ -44,7 +43,6 @@ async def negotiation_websocket(
     """
     package = db.query(TravelPackage).filter(TravelPackage.id == package_id).first()
     
-    # We use the websocket object's id or remote address as a unique connection identifier
     connection_id = f"{id(websocket)}-{package_id}"
     
     await manager.connect(connection_id, websocket)
@@ -55,11 +53,9 @@ async def negotiation_websocket(
         await websocket.close()
         return
 
-    # Initialize the AI Session
     session = NegotiatorSession(package)
     active_sessions[connection_id] = session
     
-    # Send the initial greeting
     greeting = session.get_initial_greeting()
     await manager.send_personal_message({
         "type": "message",
@@ -76,7 +72,6 @@ async def negotiation_websocket(
             # Send to Gemini
             result = session.send_message(data)
             
-            # Send the AI's response back to the user
             response_payload = {
                 "type": "message",
                 "sender": "Agent Alex",
@@ -87,9 +82,7 @@ async def negotiation_websocket(
             
             await manager.send_personal_message(response_payload, connection_id)
             
-            # If a deal is reached, we can optionally close or let the user celebrate
             if result["deal_reached"]:
-                # You could also sync standard booking APIs here!
                 await manager.send_personal_message({
                     "type": "system",
                     "text": "Negotiation concluded successfully!"

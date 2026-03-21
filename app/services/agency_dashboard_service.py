@@ -23,6 +23,8 @@ def get_agency_packages(agency_id, db: Session):
     return result
 
 
+from app.models.user_model import User
+
 # Get All Bookings of Agency
 def get_agency_bookings(agency_id, db: Session):
 
@@ -41,10 +43,14 @@ def get_agency_bookings(agency_id, db: Session):
             TravelPackage.id == b.package_id
         ).first()
 
+        user = db.query(User).filter(
+            User.id == b.user_id
+        ).first()
+
         result.append({
-            "booking_id": b.id,
-            "package_title": package.title,
-            "user_id": b.user_id,
+            "id": b.id,
+            "package_title": package.title if package else f"Package {b.package_id}",
+            "user_name": user.username if user else f"User {b.user_id}",
             "departure_date": b.departure_date,
             "total_price": b.total_price,
             "status": b.status
