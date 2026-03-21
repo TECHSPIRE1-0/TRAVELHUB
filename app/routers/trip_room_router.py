@@ -200,3 +200,4 @@ async def websocket_endpoint(
 
     except WebSocketDisconnect:
         manager.disconnect(code, websocket)
+

@@ -38,3 +38,24 @@ def get_current_agency(request : Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid agency")
 
     return agency
+
+
+
+ 
+def get_current_admin(request: Request, db: Session = Depends(get_db)):
+ 
+    from app.models.admin_model import Admin
+ 
+    token = request.cookies.get("admin_token")
+ 
+    if not token:
+        raise HTTPException(status_code=401, detail="Admin not authenticated")
+ 
+    payload  = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+    admin_id = payload.get("admin_id")
+    admin    = db.query(Admin).filter(Admin.id == admin_id).first()
+ 
+    if not admin:
+        raise HTTPException(status_code=401, detail="Invalid admin credentials")
+ 
+    return admin

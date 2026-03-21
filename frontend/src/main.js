@@ -28,6 +28,10 @@ import MatchmakingPage from './pages/matchmaking.js';
 import NegotiatorPage from './pages/negotiator.js';
 import VisionPage from './pages/vision.js';
 import ReelsPage from './pages/reels.js';
+import AdminDashboardPage from './pages/admin-dashboard.js';
+import AdminLoginPage from './pages/admin-login.js';
+import AdminRegisterPage from './pages/admin-register.js';
+import { renderSOSButton } from './components/sos-button.js';
 
 // --- Register All Routes ---
 registerRoute('/', HomePage);
@@ -50,8 +54,12 @@ registerRoute('/matchmaking', MatchmakingPage);
 registerRoute('/negotiator', NegotiatorPage);
 registerRoute('/vision', VisionPage);
 registerRoute('/reels', ReelsPage);
+registerRoute('/admin-dashboard', AdminDashboardPage);
+registerRoute('/admin-login', AdminLoginPage);
+registerRoute('/admin-register', AdminRegisterPage);
 
 // --- Initialize ---
 renderNavbar();
 renderFooter();
+renderSOSButton();
 render();
