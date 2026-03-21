@@ -38,6 +38,11 @@ export const auth = {
   loginAgency: (data) => request('POST', '/auth/auth/login-agency', data),
 };
 
+export const adminAuth = {
+  register: (data) => request('POST', '/admin/register', data),
+  login: (data) => request('POST', '/admin/login', data),
+};
+
 // ─────────────────────────── PACKAGES ───────────────────────
 export const packages = {
   search: (filters = {}) => {
@@ -103,6 +108,10 @@ export const tripRoom = {
   getDetails: (code) => request('GET', `/trip/${code}`),
   close: (code) => request('PATCH', `/trip/${code}/close`),
 
+  initiateBooking: (code, data) => request('POST', `/trip/${code}/initiate-booking`, data),
+  payShare: (code) => request('POST', `/trip/${code}/pay-share`),
+  getBookingStatus: (code) => request('GET', `/trip/${code}/booking-status`),
+
   connectWS: (code) => {
     const proto = location.protocol === 'https:' ? 'wss' : 'ws';
     return new WebSocket(`${proto}://${location.host}/trip/${code}/ws`);
@@ -165,6 +174,11 @@ export const crowd = {
     request('GET', `/crowd/package/${packageId}?departure_date=${departureDate}`),
   checkDestination: (destination) => 
     request('GET', `/crowd/destination?destination=${encodeURIComponent(destination)}`)
+};
+
+// ─────────────────────────── SOS ALERT ────────────────────────
+export const sos = {
+  sendAlert: (data) => request('POST', '/sos/alert', data),
 };
 
 // ─────────────────────────── REAL-TIME CHAT ────────────────────

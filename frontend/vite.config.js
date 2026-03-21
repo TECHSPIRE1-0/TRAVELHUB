@@ -48,6 +48,8 @@ export default defineConfig({
       '/vision/': { target: 'http://localhost:8000', changeOrigin: true },
       '/crowd/': { target: 'http://localhost:8000', changeOrigin: true },
       '/chat/': { target: 'http://localhost:8000', changeOrigin: true, ws: true },
+      '/sos/': { target: 'http://localhost:8000', changeOrigin: true },
+      '/admin/': { target: 'http://localhost:8000', changeOrigin: true },
     },
   },
 });

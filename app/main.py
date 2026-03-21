@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from app.database import Base, engine
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import auth_router, agency_router, package_router, enquiry_router, booking_router, user_router, agency_dashboard_router, search_router, payment_router, ai_search_router, dna_router,trip_room_router,social_proof_router, itinerary_router,matchmaking_router,mystery_flight_router, negotiator_router, reels_router, vision_router, crowd_router, chat_router
+from app.routers import auth_router, agency_router, package_router, enquiry_router, booking_router, user_router, agency_dashboard_router, search_router, payment_router, ai_search_router, dna_router,trip_room_router,social_proof_router, itinerary_router,matchmaking_router,mystery_flight_router, negotiator_router, reels_router, vision_router, crowd_router, chat_router, sos_router, admin_router
 
 Base.metadata.create_all(bind=engine)
 
@@ -16,6 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+app.include_router(admin_router.router)
 app.include_router(auth_router.router, prefix="/auth")
 app.include_router(agency_router.router, prefix="/auth")
 app.include_router(package_router.router)
@@ -37,6 +39,8 @@ app.include_router(reels_router.router)
 app.include_router(vision_router.router)
 app.include_router(crowd_router.router)
 app.include_router(chat_router.router)
+app.include_router(sos_router.router)
+
 # app.include_router(webhook_router.router)
 
 

@@ -35,9 +35,9 @@ export function renderFooter() {
             <h4>Account</h4>
             <ul>
               <li><a href="/login" data-link>User Login</a></li>
-              <li><a href="/register" data-link>Sign Up</a></li>
               <li><a href="/agency-login" data-link>Agency Login</a></li>
               <li><a href="/user-dashboard" data-link>Dashboard</a></li>
+              <li><a href="/admin-login" data-link style="color: var(--danger);">Admin Portal</a></li>
             </ul>
           </div>
         </div>

@@ -15,6 +15,8 @@ function updateNavbar(navbar) {
   const user = JSON.parse(localStorage.getItem('travelhub_user') || 'null');
   const isLoggedIn = !!user;
   const isAgency = user?.role === 'agency';
+  const isAdmin = user?.role === 'admin';
+  const dashboardRoute = isAdmin ? '/admin-dashboard' : (isAgency ? '/agency-dashboard' : '/user-dashboard');
 
   navbar.innerHTML = `
     <div class="navbar transparent">
@@ -35,7 +37,7 @@ function updateNavbar(navbar) {
           <li><a href="/mystery-flight" data-link>Mystery ✈️</a></li>
           <li><a href="/vision" data-link>Vision</a></li>
           ${isLoggedIn ? `
-            <li><a href="${isAgency ? '/agency-dashboard' : '/user-dashboard'}" data-link>Dashboard</a></li>
+            <li><a href="${dashboardRoute}" data-link>Dashboard</a></li>
             <li><button class="btn btn-sm btn-secondary" id="logout-btn">Logout</button></li>
           ` : `
             <li><a href="/login" data-link class="btn btn-primary btn-sm">Start Adventure</a></li>

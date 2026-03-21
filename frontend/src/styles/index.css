@@ -1051,3 +1051,120 @@ textarea.form-input { resize: vertical; min-height: 100px; }
   .hero { min-height: 90vh; }
   .section { padding: 60px 0; }
 }
+
+/* --- SOS Button & Modal --- */
+.sos-fab {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--danger);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 20px rgba(192, 57, 43, 0.4);
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+}
+.sos-fab:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 25px rgba(192, 57, 43, 0.6);
+}
+.sos-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--danger);
+  z-index: -1;
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes ping {
+  75%, 100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+.sos-fab span {
+  display: none;
+  position: absolute;
+  right: 70px;
+  background: var(--bg-card);
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  color: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--border-color);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.sos-fab:hover span {
+  display: block;
+}
+
+.sos-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 18, 32, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.sos-modal {
+  background: var(--bg-card);
+  border: 1px solid rgba(192, 57, 43, 0.3);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5), inset 0 0 40px rgba(192, 57, 43, 0.05);
+  animation: fadeSlideUp 0.3s ease;
+  overflow: hidden;
+}
+.sos-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(192, 57, 43, 0.1);
+}
+.sos-modal-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--danger);
+  margin: 0;
+}
+.sos-close-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.8rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color var(--transition-fast);
+}
+.sos-close-btn:hover { color: white; }
+.sos-modal-body { padding: 24px; }
+.sos-modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: rgba(0,0,0,0.2);
+}
+.sos-send-action {
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 12px 24px;
+}

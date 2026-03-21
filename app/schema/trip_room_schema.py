@@ -55,3 +55,4 @@ class VoteResponse(BaseModel):
     message:         str
     your_vote:       str         # package title you voted for
     current_results: List[PackageVoteSummary]
+

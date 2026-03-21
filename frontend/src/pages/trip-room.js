@@ -58,6 +58,9 @@ export default async function TripRoomPage(container) {
             <div id="members-list"></div>
           </div>
 
+          <!-- Group Booking -->
+          <div id="group-booking-section"></div>
+
           <!-- Close Voting -->
           <button class="btn btn-danger btn-lg" style="width: 100%;" id="close-voting-btn">🏁 Close Voting & Announce Winner</button>
         </div>
@@ -65,7 +68,7 @@ export default async function TripRoomPage(container) {
     </section>
   `;
 
-  function showRoom(roomData) {
+  async function showRoom(roomData) {
     container.querySelector('#room-view').classList.remove('hidden');
     container.querySelector('#display-code').textContent = roomData.room_code;
     container.querySelector('#room-title').textContent = roomData.name;
@@ -111,6 +114,85 @@ export default async function TripRoomPage(container) {
         } catch (err) { showToast(err.message, 'error'); }
       });
     });
+
+    // Group Booking logic
+    const closeVotingBtn = container.querySelector('#close-voting-btn');
+    const addPkgSection = container.querySelector('#add-package-section');
+    const bookingArea = container.querySelector('#group-booking-section');
+
+    if (roomData.status === 'closed') {
+      closeVotingBtn.style.display = 'none';
+      if (addPkgSection) addPkgSection.style.display = 'none';
+
+      try {
+        const bStatus = await tripRoom.getBookingStatus(roomData.room_code);
+        bookingArea.innerHTML = `
+          <div class="glass-card mb-3" style="border-color: var(--primary);">
+            <h3 style="margin-bottom: 12px;">🌟 Group Booking: ${bStatus.status.toUpperCase()}</h3>
+            <p><strong>Total:</strong> ₹${bStatus.total_price.toLocaleString('en-IN')} | <strong>Per Person:</strong> ₹${bStatus.per_person.toLocaleString('en-IN')}</p>
+            <div style="margin-top: 12px;">
+              ${bStatus.payments.map(p => `
+                <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                  <span>${p.username}</span>
+                  <span class="badge ${p.status === 'paid' ? 'badge-success' : 'badge-warning'}">${p.status.toUpperCase()}</span>
+                </div>
+              `).join('')}
+            </div>
+            ${bStatus.status !== 'confirmed' ? `
+              <button class="btn btn-success mt-3" style="width: 100%;" id="pay-share-btn">Pay My Share (₹${bStatus.per_person.toLocaleString('en-IN')})</button>
+            ` : `
+              <div class="mt-3 text-center text-success" style="font-weight: bold; font-size: 1.2rem;">🎉 Booked!</div>
+            `}
+          </div>
+        `;
+
+        const payBtn = bookingArea.querySelector('#pay-share-btn');
+        if (payBtn) {
+          payBtn.addEventListener('click', async () => {
+            try {
+              await tripRoom.payShare(roomData.room_code);
+              showToast('Payment successful!', 'success');
+              tripRoom.getDetails(roomData.room_code).then(showRoom).catch(() => {});
+            } catch (err) { showToast(err.message, 'error'); }
+          });
+        }
+      } catch (err) {
+        // Not initiated yet
+        bookingArea.innerHTML = `
+          <div class="glass-card mb-3">
+            <h3 style="margin-bottom: 12px;">🚀 Initiate Group Booking</h3>
+            <p class="text-secondary" style="margin-bottom: 12px;">Voting ended. The creator can now initiate the booking for the winning package.</p>
+            <div class="form-group">
+              <input type="number" id="booking-transport-id" class="form-input mb-2" placeholder="Transport ID (e.g., 1)" />
+              <input type="date" id="booking-departure" class="form-input mb-2" />
+              <input type="date" id="booking-return" class="form-input mb-2" />
+              <button class="btn btn-primary" style="width: 100%;" id="initiate-booking-btn">Initiate Booking</button>
+            </div>
+          </div>
+        `;
+        
+        bookingArea.querySelector('#initiate-booking-btn').addEventListener('click', async () => {
+          const tId = bookingArea.querySelector('#booking-transport-id').value;
+          const dep = bookingArea.querySelector('#booking-departure').value;
+          const ret = bookingArea.querySelector('#booking-return').value;
+          if (!tId || !dep || !ret) return showToast('Fill all fields', 'warning');
+          
+          try {
+            await tripRoom.initiateBooking(roomData.room_code, {
+              transport_id: parseInt(tId),
+              departure_date: dep,
+              return_date: ret
+            });
+            showToast('Booking Initiated!', 'success');
+            tripRoom.getDetails(roomData.room_code).then(showRoom).catch(() => {});
+          } catch (err) { showToast(err.message, 'error'); }
+        });
+      }
+    } else {
+      closeVotingBtn.style.display = 'block';
+      if (addPkgSection) addPkgSection.style.display = 'block';
+      bookingArea.innerHTML = '';
+    }
   }
 
   function connectWebSocket(code) {
@@ -125,6 +207,9 @@ export default async function TripRoomPage(container) {
         tripRoom.getDetails(code).then(showRoom).catch(() => {});
       } else if (data.event === 'voting_closed') {
         showToast('Voting closed! Winner announced!', 'success');
+        tripRoom.getDetails(code).then(showRoom).catch(() => {});
+      } else if (data.event === 'booking_initiated' || data.event === 'payment_update' || data.event === 'booking_confirmed') {
+        if (data.message) showToast(data.message, data.event === 'booking_confirmed' ? 'success' : 'info');
         tripRoom.getDetails(code).then(showRoom).catch(() => {});
       }
     };
