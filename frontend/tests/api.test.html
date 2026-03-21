@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TravelHub API Test Suite</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', monospace; background: #0a0e1a; color: #f1f5f9; padding: 24px; }
+    h1 { font-size: 1.8rem; margin-bottom: 24px; }
+    .test-group { margin-bottom: 24px; }
+    .test-group h2 { font-size: 1.2rem; color: #a78bfa; margin-bottom: 12px; }
+    .test { padding: 10px 16px; background: rgba(255,255,255,0.04); border-radius: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; }
+    .pass { border-left: 3px solid #10b981; }
+    .fail { border-left: 3px solid #ef4444; }
+    .pending { border-left: 3px solid #f59e0b; }
+    .badge { padding: 2px 10px; border-radius: 99px; font-size: 0.75rem; font-weight: 600; }
+    .badge-pass { background: rgba(16,185,129,0.15); color: #10b981; }
+    .badge-fail { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .badge-pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
+    .summary { padding: 16px; background: rgba(99,102,241,0.1); border-radius: 12px; margin-top: 24px; text-align: center; }
+    .summary .total { font-size: 2rem; font-weight: 800; color: #6366f1; }
+  </style>
+</head>
+<body>
+  <h1>🧪 TravelHub API Test Suite</h1>
+  <div id="results"></div>
+  <div id="summary" class="summary"></div>
+
+  <script type="module">
+    import * as api from '../src/api.js';
+
+    const results = [];
+
+    function test(group, name, fn) {
+      try {
+        fn();
+        results.push({ group, name, status: 'pass' });
+      } catch (err) {
+        results.push({ group, name, status: 'fail', error: err.message });
+      }
+    }
+
+    function assert(condition, msg) {
+      if (!condition) throw new Error(msg || 'Assertion failed');
+    }
+
+    // ─── AUTH Tests ───
+    test('Auth', 'auth.registerUser is a function', () => assert(typeof api.auth.registerUser === 'function'));
+    test('Auth', 'auth.loginUser is a function', () => assert(typeof api.auth.loginUser === 'function'));
+    test('Auth', 'auth.registerAgency is a function', () => assert(typeof api.auth.registerAgency === 'function'));
+    test('Auth', 'auth.loginAgency is a function', () => assert(typeof api.auth.loginAgency === 'function'));
+
+    // ─── Packages Tests ───
+    test('Packages', 'packages.search is a function', () => assert(typeof api.packages.search === 'function'));
+    test('Packages', 'packages.create is a function', () => assert(typeof api.packages.create === 'function'));
+
+    // ─── Booking Tests ───
+    test('Booking', 'booking.create is a function', () => assert(typeof api.booking.create === 'function'));
+    test('Booking', 'booking.update is a function', () => assert(typeof api.booking.update === 'function'));
+
+    // ─── Enquiry Tests ───
+    test('Enquiry', 'enquiry.send is a function', () => assert(typeof api.enquiry.send === 'function'));
+    test('Enquiry', 'enquiry.getAgencyEnquiries is a function', () => assert(typeof api.enquiry.getAgencyEnquiries === 'function'));
+
+    // ─── User Dashboard Tests ───
+    test('User', 'user.dashboard is a function', () => assert(typeof api.user.dashboard === 'function'));
+    test('User', 'user.bookingDetails is a function', () => assert(typeof api.user.bookingDetails === 'function'));
+    test('User', 'user.cancelBooking is a function', () => assert(typeof api.user.cancelBooking === 'function'));
+
+    // ─── Agency Dashboard Tests ───
+    test('Agency Dashboard', 'agencyDashboard.packages is a function', () => assert(typeof api.agencyDashboard.packages === 'function'));
+    test('Agency Dashboard', 'agencyDashboard.bookings is a function', () => assert(typeof api.agencyDashboard.bookings === 'function'));
+    test('Agency Dashboard', 'agencyDashboard.bookingDetails is a function', () => assert(typeof api.agencyDashboard.bookingDetails === 'function'));
+    test('Agency Dashboard', 'agencyDashboard.updateBookingStatus is a function', () => assert(typeof api.agencyDashboard.updateBookingStatus === 'function'));
+    test('Agency Dashboard', 'agencyDashboard.stats is a function', () => assert(typeof api.agencyDashboard.stats === 'function'));
+
+    // ─── AI Search Tests ───
+    test('AI Search', 'aiSearch.search is a function', () => assert(typeof api.aiSearch.search === 'function'));
+
+    // ─── DNA Quiz Tests ───
+    test('DNA Quiz', 'dna.getQuestions is a function', () => assert(typeof api.dna.getQuestions === 'function'));
+    test('DNA Quiz', 'dna.submitQuiz is a function', () => assert(typeof api.dna.submitQuiz === 'function'));
+
+    // ─── Trip Room Tests ───
+    test('Trip Room', 'tripRoom.create is a function', () => assert(typeof api.tripRoom.create === 'function'));
+    test('Trip Room', 'tripRoom.join is a function', () => assert(typeof api.tripRoom.join === 'function'));
+    test('Trip Room', 'tripRoom.addPackage is a function', () => assert(typeof api.tripRoom.addPackage === 'function'));
+    test('Trip Room', 'tripRoom.vote is a function', () => assert(typeof api.tripRoom.vote === 'function'));
+    test('Trip Room', 'tripRoom.getDetails is a function', () => assert(typeof api.tripRoom.getDetails === 'function'));
+    test('Trip Room', 'tripRoom.close is a function', () => assert(typeof api.tripRoom.close === 'function'));
+    test('Trip Room', 'tripRoom.connectWS is a function', () => assert(typeof api.tripRoom.connectWS === 'function'));
+
+    // ─── Social Proof Tests ───
+    test('Social Proof', 'socialProof.trackView is a function', () => assert(typeof api.socialProof.trackView === 'function'));
+    test('Social Proof', 'socialProof.get is a function', () => assert(typeof api.socialProof.get === 'function'));
+
+    // ─── Itinerary Tests ───
+    test('Itinerary', 'itinerary.generate is a function', () => assert(typeof api.itinerary.generate === 'function'));
+
+    // ─── Matchmaking Tests ───
+    test('Matchmaking', 'matchmaking.score is a function', () => assert(typeof api.matchmaking.score === 'function'));
+
+    // ─── Mystery Flight Tests ───
+    test('Mystery Flight', 'mysteryFlight.book is a function', () => assert(typeof api.mysteryFlight.book === 'function'));
+
+    // ─── Negotiator Tests ───
+    test('Negotiator', 'negotiator.connectWS is a function', () => assert(typeof api.negotiator.connectWS === 'function'));
+
+    // ─── Reels Tests ───
+    test('Reels', 'reels.generate is a function', () => assert(typeof api.reels.generate === 'function'));
+
+    // ─── Vision Tests ───
+    test('Vision', 'vision.analyze is a function', () => assert(typeof api.vision.analyze === 'function'));
+
+    // ─── Render Results ───
+    const container = document.getElementById('results');
+    const groups = {};
+    results.forEach(r => {
+      if (!groups[r.group]) groups[r.group] = [];
+      groups[r.group].push(r);
+    });
+
+    let html = '';
+    for (const [group, tests] of Object.entries(groups)) {
+      html += `<div class="test-group"><h2>${group}</h2>`;
+      tests.forEach(t => {
+        html += `<div class="test ${t.status}">
+          <span>${t.name} ${t.error ? `<span style="color: #ef4444; font-size: 0.8rem;"> — ${t.error}</span>` : ''}</span>
+          <span class="badge badge-${t.status}">${t.status.toUpperCase()}</span>
+        </div>`;
+      });
+      html += '</div>';
+    }
+    container.innerHTML = html;
+
+    const passed = results.filter(r => r.status === 'pass').length;
+    const failed = results.filter(r => r.status === 'fail').length;
+    document.getElementById('summary').innerHTML = `
+      <div class="total">${passed} / ${results.length} Passed</div>
+      <p style="color: ${failed ? '#ef4444' : '#10b981'}; margin-top: 8px;">
+        ${failed ? `⚠️ ${failed} test(s) failed` : '✅ All tests passed!'}
+      </p>
+    `;
+  </script>
+</body>
+</html>
