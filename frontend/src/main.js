@@ -1,7 +1,3 @@
-// =========================================================================
-// TRAVELHUB — Main Entry Point
-// Registers all routes and initializes the SPA
-// =========================================================================
 
 import { registerRoute, render } from './router.js';
 import { renderNavbar } from './components/navbar.js';
