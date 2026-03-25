@@ -1,3 +1,5 @@
+import { getPackageImage } from '../utils.js';
+
 // Reusable Package Card component
 export function createPackageCard(pkg) {
   const types = ['🏔️ Adventure', '🏖️ Beach', '🌿 Nature', '🏛️ Heritage', '🌆 City'];
@@ -7,6 +9,7 @@ export function createPackageCard(pkg) {
   return `
     <div class="glass-card package-card" data-link href="/package/${pkg.id}">
       <div class="package-image">
+        <img src="${getPackageImage(pkg.id)}" alt="Package Image" loading="lazy" />
         <div class="package-badge">${typeBadge}</div>
       </div>
       <div class="package-body">

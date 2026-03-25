@@ -2,6 +2,7 @@
 import { packages as packagesApi, socialProof, enquiry as enquiryApi } from '../api.js';
 import { showToast } from '../components/toast.js';
 import { navigate } from '../router.js';
+import { getPackageImage } from '../utils.js';
 
 export default async function PackageDetailPage(container, params) {
   const packageId = params.id;
@@ -37,8 +38,9 @@ export default async function PackageDetailPage(container, params) {
         <a href="/packages" data-link class="text-secondary" style="display: inline-flex; align-items: center; gap: 6px; margin-bottom: 24px;">← Back to Packages</a>
 
         <div class="glass-card animate-in">
-          <div class="package-image" style="height: 250px; border-radius: var(--radius-lg); margin-bottom: 24px;">
-            <div class="package-badge">Package #${packageId}</div>
+          <div class="package-image" style="height: 250px; border-radius: var(--radius-lg); margin-bottom: 24px; position: relative; overflow: hidden;">
+            <img src="${getPackageImage(packageId)}" alt="Package Image" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0;" />
+            <div class="package-badge" style="position: absolute; top: 14px; right: 14px; z-index: 1; padding: 5px 14px; border-radius: var(--radius-full); background: var(--accent); color: #0B1220; font-size: 0.72rem; font-weight: 700; text-transform: uppercase;">Package #${packageId}</div>
           </div>
 
           <h1 style="font-size: 2rem; margin-bottom: 8px;">${proofData?.title || `Package #${packageId}`}</h1>

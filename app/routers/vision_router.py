@@ -9,7 +9,7 @@ router = APIRouter(prefix="/vision", tags=["AI Local Lens (Image to Trip)"])
 async def analyze_landmark_image(
     file: UploadFile = File(...),
     db: Session = Depends(get_db)
-):
+):  
     """
     Upload a picture of a destination, landmark, or vibe, 
     and the AI will identify it and find matching travel packages!
